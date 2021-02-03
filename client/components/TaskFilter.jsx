@@ -1,18 +1,11 @@
 import React from 'react';
-import DatePicker from 'react-datepicker'
-import "./react-datepicker.css"
-import ColorPicker from './ColorPicker.jsx'
 import './TaskEditor.less'
 
-class TaskEditor extends React.Component{
+class TaskFilter extends React.Component{
     constructor (props){
         super(props);
         this.state={
-            title:'',
-            text:'',
-            color: '#FFFFFF',
-            start_date: new Date(),
-            stop_date: new Date(),
+            status: 0
         }
         this.handleNoteAdd=this.handleNoteAdd.bind(this);
         this.handleTextChange=this.handleTextChange.bind(this);
@@ -22,26 +15,11 @@ class TaskEditor extends React.Component{
         this.handleStopDateChange=this.handleStopDateChange.bind(this);
     };
 
-    handleTextChange(event) {
-        this.setState({ text: event.target.value });
+    handleStatusChange(event) {
+        this.setState({ status: event.target.value });
     };
 
-    handleTitleChange(event) {
-        this.setState({ title: event.target.value });
-    };
-
-    handleStartDateChange(date) {
-        this.setState({ start_date: date})
-    };
-    handleStopDateChange(date) {
-        this.setState({ stop_date: date})
-    };
-
-    handleColorChange(color) {
-        this.setState({ color });
-    };
-
-    handleNoteAdd() {
+    handleFiltering() {
         const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
         const status=COLORS.indexOf(this.state.color)
         const newNote = {

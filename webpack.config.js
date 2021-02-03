@@ -23,7 +23,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: "style-loader!css-loader!autoprefixer-loader",
+                use:[
+                    {loader:'style-loader'},
+                    {loader:'css-loader'}
+                ],
                 exclude: [/node_modules/, /public/]
             },
             {
@@ -55,10 +58,6 @@ module.exports = {
                 test: /\.jsx$/,
                 use: "babel-loader",
                 exclude: [/node_modules/]
-            },
-            {
-                test: /\.json$/,
-                use: "json-loader"
             }
         ]
     }

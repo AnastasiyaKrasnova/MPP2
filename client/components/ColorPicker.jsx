@@ -3,7 +3,7 @@ import createReactClass from 'create-react-class'
 import cx from 'classnames';
 import './ColorPicker.less';
 
-const COLORS = ['#FFFFFF', '#80D8FF', '#FFFF8D', '#FF8A80', '#CCFF90', '#CFD8DC', '#FFD180'];
+const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
 
 const ColorPicker = createReactClass({
     render() {

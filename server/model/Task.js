@@ -1,7 +1,12 @@
 const mongoose=require('mongoose');
 
 const taskSchema=new mongoose.Schema({
-    name:{
+    title:{
+        type: String,
+        required: true,
+        max: 255
+    },
+    text:{
         type: String,
         required: true,
         max: 255

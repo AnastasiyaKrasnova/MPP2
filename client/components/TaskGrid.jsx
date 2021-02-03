@@ -1,12 +1,11 @@
 import React from 'react';
-import Note from './Task.jsx';
-import createReactClass from 'create-react-class';
+import Task from './Task.jsx';
 
 import Masonry from 'react-masonry-component';
 
 import './TaskGrid.less';
 
-const TaskGrid = createReactClass({
+class TaskGrid extends React.Component{
     render() {
         const masonryOptions = {
             itemSelector: '.Note',
@@ -15,26 +14,28 @@ const TaskGrid = createReactClass({
             isFitWidth: true
         };
 
+        const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
+        console.log(this.props.tasks)
         return (
             <Masonry
-                className='TaskGrid'
+                className='NotesGrid'
                 options={masonryOptions}
             >
                 {
-                    this.props.notes.map(note =>
-                        <Note
-                            key={note.id}
-                            title={note.title}
-                            onDelete={this.props.onNoteDelete.bind(null, note)}
-                            color={note.color}
+                    this.props.tasks.map(task =>
+                        <Task
+                            key={task.id}
+                            title={task.title}
+                            onDelete={this.props.onNoteDelete.bind(null, task)}
+                            color={COLORS[task.status]}
                         >
-                            {note.text}
-                        </Note>
+                            {task.text}
+                        </Task>
                     )
                 }
             </Masonry>
         );
     }
-});
+};
 
 export default TaskGrid;

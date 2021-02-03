@@ -2,7 +2,8 @@ const Joi=require('@hapi/joi');
 const Task=require('../model/Task');
 
 const schema=Joi.object({
-    name: Joi.string().max(255).required(),
+    title: Joi.string().max(255).required(),
+    text: Joi.string().max(255).required(),
     start_date: Joi.date().default(Date.now),
     stop_date: Joi.date(),
     status: Joi.number().max(3).default(0),
@@ -14,10 +15,12 @@ exports.add=async (data)=>{
     if (error) return null;
 
     const task=new Task({
-        name: data.name,
+        title: data.title,
+        text: data.text,
         start_date: data.start_date,
         stop_date: data.stop_date,
-        status: data.status
+        status: data.status,
+        files_list: data.files_list
     });
 
     try{
