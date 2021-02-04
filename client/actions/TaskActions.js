@@ -28,16 +28,17 @@ const TaskActions = {
     createTask(note) {
         api.createTask(note)
         .then((res)=>{
-            console.log(res)
-            const formData = new FormData();        
-            formData.append('file', note.file);
-            api.uploadFile(formData,res.data._id)
-            .then(() =>
-                    this.loadTasks()
-                )
-            .catch(err =>
+            console.log(note.file)
+            this.loadTasks()
+            note.file.map((item,i)=>{
+                const formData = new FormData();        
+                formData.append('file', item);
+                api.uploadFile(formData,res.data._id).
+                catch(err =>
                     console.error(err)
             );
+            })     
+            
         }).catch(err => console.log(err))
 
     },
@@ -53,22 +54,32 @@ const TaskActions = {
     },
 
     updateTask(note) {
+        note.file.map((item,i)=>{
+            const formData = new FormData();        
+            formData.append('file', item);
+            console.log(note)
+            api.uploadFile(formData,note.id)
+            .catch(err =>
+                console.error(err)
+        );
+        })     
         AppDispatcher.dispatch({
             type: Constants.LOAD_TASKS_REQUEST
         });
         api.updateTask(note)
-        .then(({ data }) =>
-        AppDispatcher.dispatch({
-            type: Constants.LOAD_TASKS_SUCCESS,
-            tasks: data
+        .then(({ res }) =>{
+            AppDispatcher.dispatch({
+                type: Constants.LOAD_TASKS_SUCCESS,
+                tasks: res
+            });
         })
-    )
-    .catch(err =>
-        AppDispatcher.dispatch({
-            type: Constants.LOAD_TASKS_FAIL,
-            error: err
-        })
-    );
+        .catch(err =>
+            AppDispatcher.dispatch({
+                type: Constants.LOAD_TASKS_FAIL,
+                error: err
+            })
+        );
+
     },
 
     filterTask(status){

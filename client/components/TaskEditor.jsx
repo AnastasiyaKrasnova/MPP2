@@ -9,12 +9,13 @@ import moment from 'moment'
 const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
 
 class TaskEditor extends React.Component{
+
     constructor (props){
         super(props);
         this.state={
             title:'',
             text:'',
-            file:'',
+            file:[],
             files_list:[],
             color: COLORS[0],
             start_date: new Date(),
@@ -67,11 +68,11 @@ class TaskEditor extends React.Component{
 
     handleFileChange(event){
         const file = event.target.files[0];
-        if (this.props.task)
-            this.props.task.file=file
+        const nf=this.state.file;
+        nf.push(file);
         const f=this.state.files_list;
         f.push(file.name);
-        this.setState({file:file, files_list: f});
+        this.setState({file:nf, files_list: f});
     };
 
 
@@ -98,22 +99,26 @@ class TaskEditor extends React.Component{
                 start_date: new Date(),
                 stop_date: new Date(),
                 files_list:[],
-                file: ''});
+                file: []});
     };
 
     render(){
-        let listItems;
+        let listItems, files;
         if (this.props.task){
+            
+            if (!this.state.file) files=[]
+            else files=this.state.file
             this.state={
                 title:this.props.task.title,
                 text:this.props.task.text,
                 color: COLORS[this.props.task.status],
                 start_date: this.props.task.start_date,
                 stop_date: this.props.task.stop_date,
-                file: this.props.task.file,
                 files_list: this.props.task.files_list,
+                file: files,
                 button_name: 'Update'
             }
+            console.log(this.state)
             listItems = this.state.files_list.map((item,i)=> 
             {
                 return (<div>

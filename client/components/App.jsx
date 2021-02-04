@@ -58,6 +58,7 @@ class App extends React.Component{
 
    handleNoteUpdate(taskdata){
        this.props.isEditing=false;
+       console.log(taskdata);
         TaskActions.updateTask(taskdata);
 
    }

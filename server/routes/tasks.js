@@ -13,6 +13,7 @@ router.post('/tasks', async (req,res)=>{
 });
 
 router.post('/tasks/files', async (req,res)=>{
+     console.log(req.files)
      if (!req.files) {
           return res.status(500).send({ msg: "file is not found" })
       }
@@ -76,6 +77,9 @@ router.put('/tasks', async (req,res)=>{
 
 router.delete('/tasks', async (req,res)=>{
 
+     const dir=`${global.appRoot}/public/${req.query.id}`
+     fs.rmdir(dir, { recursive: true }, (err) => {
+          if (err) console.log(err)})
      const saved=await Task.delete(req.query.id);
      if (saved)
          res.status(200).send(saved);
