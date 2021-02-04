@@ -63,9 +63,10 @@ class TaskEditor extends React.Component{
             title: this.state.title,
             text: this.state.text,
             status: status,
-            start_date: moment(this.state.start_date).format('yyyy-mm-dd'),
-            stop_date: moment(this.state.stop_date).format('yyyy-mm-dd')
+            start_date: moment(this.state.start_date).format('yyyy-MM-DD'),
+            stop_date: moment(this.state.stop_date).format('yyyy-MM-DD')
         };
+        console.log(newNote);
         if (this.props.task){
             newNote.id=this.props.task.id
             this.props.task=null
