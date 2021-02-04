@@ -8,8 +8,12 @@ class Task extends React.Component{
         return (
             <div className='Note' style={style}>
                 <span className='Note__del-icon' onClick={this.props.onDelete}> × </span>
+                <span className='Note__modif-icon' onClick={this.props.onEdit}> M </span>
                 <h4 className='Note__title'>{this.props.title}</h4>
+                <h4 className='Note__title'>{this.props.start_date}</h4>
+                <h4 className='Note__title'>{this.props.stop_date}</h4>
                 <div className='Note__text'>{this.props.children}</div>
+                
             </div>
         );
     }

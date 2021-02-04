@@ -44,6 +44,25 @@ const TaskActions = {
         );
     },
 
+    updateTask(note) {
+        AppDispatcher.dispatch({
+            type: Constants.LOAD_TASKS_REQUEST
+        });
+        api.updateTask(note)
+        .then(({ data }) =>
+        AppDispatcher.dispatch({
+            type: Constants.LOAD_TASKS_SUCCESS,
+            tasks: data
+        })
+    )
+    .catch(err =>
+        AppDispatcher.dispatch({
+            type: Constants.LOAD_TASKS_FAIL,
+            error: err
+        })
+    );
+    },
+
     filterTask(status){
 
         AppDispatcher.dispatch({
@@ -64,10 +83,6 @@ const TaskActions = {
             })
         );
     },
-
-    updateStopDate(taskid,date){
-
-    }
 };
 
 export default TaskActions;

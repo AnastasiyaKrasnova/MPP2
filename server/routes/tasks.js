@@ -32,9 +32,11 @@ router.get('/tasks', async (req,res)=>{
 
 router.put('/tasks', async (req,res)=>{
 
-     const saved=await Task.updateDate(req.query.id,req.body.stop_date);
-    if (saved)
-         res.status(200).send(saved);
+     console.log(req.body)
+     const saved=await Task.update(req.body);
+    if (saved){
+          res.status(200).send(saved);
+    }     
     else
          res.status(400).send('DB error while updating date');
  });

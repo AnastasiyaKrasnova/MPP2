@@ -2,6 +2,7 @@ import React from 'react';
 
 import TaskEditor from './TaskEditor.jsx'
 import TaskGrid from './TaskGrid.jsx'
+import TaskFilter from './TaskFilter.jsx'
 import TasksStore from '../stores/TasksStore.js'
 import TaskActions from '../actions/TaskActions';
 
@@ -21,10 +22,15 @@ class App extends React.Component{
 
         const info=getStateFromFlux();
         this.state={
+            editTask: null,
             tasks:info.tasks,
             isLoading:info.isLoading
         }
+        this.props.isEditing=false;
         this._onChange=this._onChange.bind(this);
+        this.handleNoteEdit=this.handleNoteEdit.bind(this);
+        this.handleNoteUpdate=this.handleNoteUpdate.bind(this);
+        this.handleNoteDelete=this.handleNoteDelete.bind(this);
     }
 
     componentWillMount() {
@@ -40,23 +46,47 @@ class App extends React.Component{
     }
 
     handleNoteDelete(task) {
+        this.props.isEditing=false;
         TaskActions.deleteTask(task.id);
+        this.setState({editTask: task});
     }
 
    handleNoteAdd(taskdata){
         TaskActions.createTask(taskdata);
    }
 
+   handleNoteUpdate(taskdata){
+       this.props.isEditing=false;
+        TaskActions.updateTask(taskdata);
+
+   }
+
+   handleNoteEdit(task){
+       this.props.isEditing=true;
+        this.setState({editTask: task});
+    }
+
    handleFiltering(status){
        TaskActions.filterTask(status);
    }
+
+   handleReturning(){
+        TaskActions.loadTasks()
+   }
     render(){
+        console.log('render')
+        let editor;
+        if (!this.props.isEditing) {
+            editor= <TaskEditor onNoteAdd={this.handleNoteAdd} />;
+          } else {
+            editor =<TaskEditor task={this.state.editTask} onNoteAdd={this.handleNoteUpdate} />;
+          }
         return (
             <div className='App'>
                 <h2 className='App__header'>Task Sheduler</h2>
-                <TaskEditor onNoteAdd={this.handleNoteAdd} />
-                
-                <TaskGrid tasks={this.state.tasks} onNoteDelete={this.handleNoteDelete} />
+                {editor}
+                <TaskFilter onFiltering={this.handleFiltering} onReturn={this.handleReturning}/>
+                <TaskGrid tasks={this.state.tasks} onNoteDelete={this.handleNoteDelete} onNoteEdit={this.handleNoteEdit} />
             </div>
         )
     }

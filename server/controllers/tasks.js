@@ -52,9 +52,9 @@ exports.filterByStatus=async(status)=>{
     }
 }
 
-exports.updateDate=async(id,date)=>{
+exports.update=async(data)=>{
     try{
-        const task=await Task.findByIdAndUpdate({_id : id}, {stop_date: date}, {upsert: false})
+        const task=await Task.findByIdAndUpdate({_id : data.id}, data, {upsert: false})
         return task;
     }
     catch(err) {

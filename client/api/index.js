@@ -18,8 +18,9 @@ export default {
         return axios.get(`${apiPrefix}/tasks?status=${status}`);
     },
 
-    updateStopDate(id,date){
-        return axios.post(`${apiPrefix}/tasks?id=${id}`, date);
+    updateTask(data){
+        console.log(data)
+        return axios.put(`${apiPrefix}/tasks`, data);
     }
 
 }

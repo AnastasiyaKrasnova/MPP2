@@ -15,7 +15,6 @@ class TaskGrid extends React.Component{
         };
 
         const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
-        console.log(this.props.tasks)
         return (
             <Masonry
                 className='NotesGrid'
@@ -26,7 +25,10 @@ class TaskGrid extends React.Component{
                         <Task
                             key={task.id}
                             title={task.title}
+                            start_date={task.start_date}
+                            stop_date={task.stop_date}
                             onDelete={this.props.onNoteDelete.bind(null, task)}
+                            onEdit={this.props.onNoteEdit.bind(null, task)}
                             color={COLORS[task.status]}
                         >
                             {task.text}
