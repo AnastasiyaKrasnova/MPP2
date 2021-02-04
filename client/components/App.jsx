@@ -6,6 +6,7 @@ import TaskFilter from './TaskFilter.jsx'
 import TasksStore from '../stores/TasksStore.js'
 import TaskActions from '../actions/TaskActions';
 
+
 import './App.less';
 
 function getStateFromFlux() {
@@ -66,6 +67,10 @@ class App extends React.Component{
         this.setState({editTask: task});
     }
 
+    handleFileDownload(filename,id){
+        TaskActions.downloadFile(filename,id);
+     }
+
    handleFiltering(status){
        TaskActions.filterTask(status);
    }
@@ -79,7 +84,7 @@ class App extends React.Component{
         if (!this.props.isEditing) {
             editor= <TaskEditor onNoteAdd={this.handleNoteAdd} />;
           } else {
-            editor =<TaskEditor task={this.state.editTask} onNoteAdd={this.handleNoteUpdate} />;
+            editor =<TaskEditor task={this.state.editTask} onFileDownload={this.handleFileDownload} onNoteAdd={this.handleNoteUpdate} />;
           }
         return (
             <div className='App'>

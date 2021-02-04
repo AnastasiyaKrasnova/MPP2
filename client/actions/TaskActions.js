@@ -2,6 +2,7 @@ import AppDispatcher from '../dispatcher/AppDispatcher';
 import Constants from '../constants/AppConstants';
 
 import api from '../api';
+import download from 'js-file-download';
 
 const TaskActions = {
     loadTasks() {
@@ -26,12 +27,19 @@ const TaskActions = {
 
     createTask(note) {
         api.createTask(note)
-        .then(() =>
-            this.loadTasks()
-        )
-        .catch(err =>
-            console.error(err)
-        );
+        .then((res)=>{
+            console.log(res)
+            const formData = new FormData();        
+            formData.append('file', note.file);
+            api.uploadFile(formData,res.data._id)
+            .then(() =>
+                    this.loadTasks()
+                )
+            .catch(err =>
+                    console.error(err)
+            );
+        }).catch(err => console.log(err))
+
     },
 
     deleteTask(noteId) {
@@ -83,6 +91,16 @@ const TaskActions = {
             })
         );
     },
+
+    downloadFile(filename,id){
+        api.downloadFile(filename,id)
+        .then(res => {
+            download(res.data, filename);
+        })
+        .catch(err => {
+           console.log(err);
+        });
+    }
 };
 
 export default TaskActions;

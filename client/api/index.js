@@ -7,6 +7,7 @@ export default {
     },
 
     createTask(data) {
+
         return axios.post(`${apiPrefix}/tasks`, data);
     },
 
@@ -19,8 +20,16 @@ export default {
     },
 
     updateTask(data){
-        console.log(data)
+
         return axios.put(`${apiPrefix}/tasks`, data);
-    }
+    },
+
+    uploadFile(formData,id){
+            return axios.post(`${apiPrefix}/tasks/files?id=${id}`, formData);
+    },
+
+    downloadFile(filename,id){
+        return axios.post(`${apiPrefix}/tasks/download?filename=${filename}&id=${id}`);
+}
 
 }

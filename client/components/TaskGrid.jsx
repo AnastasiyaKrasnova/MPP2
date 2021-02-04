@@ -27,6 +27,7 @@ class TaskGrid extends React.Component{
                             title={task.title}
                             start_date={task.start_date}
                             stop_date={task.stop_date}
+                            files_list={task.files_list}
                             onDelete={this.props.onNoteDelete.bind(null, task)}
                             onEdit={this.props.onNoteEdit.bind(null, task)}
                             color={COLORS[task.status]}

@@ -2,6 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker'
 import "./react-datepicker.css"
 import ColorPicker from './ColorPicker.jsx'
+import FileUpload from './FileUploader.jsx';
 import './TaskEditor.less'
 import moment from 'moment'
 
@@ -13,11 +14,14 @@ class TaskEditor extends React.Component{
         this.state={
             title:'',
             text:'',
+            file:'',
+            files_list:[],
             color: COLORS[0],
             start_date: new Date(),
             stop_date: new Date(),
             button_name: "Add"
         }
+        this.handleFileChange=this.handleFileChange.bind(this);
         this.handleNoteAdd=this.handleNoteAdd.bind(this);
         this.handleTextChange=this.handleTextChange.bind(this);
         this.handleTitleChange=this.handleTitleChange.bind(this);
@@ -55,18 +59,33 @@ class TaskEditor extends React.Component{
         this.setState({ color });
     };
 
+    handleColorChange(color) {
+        if (this.props.task)
+            this.props.task.status=COLORS.indexOf(color)
+        this.setState({ color });
+    };
+
+    handleFileChange(event){
+        const file = event.target.files[0];
+        if (this.props.task)
+            this.props.task.file=file
+        const f=this.state.files_list;
+        f.push(file.name);
+        this.setState({file:file, files_list: f});
+    };
+
+
     handleNoteAdd() {
-       
         const status=COLORS.indexOf(this.state.color)
-        console.log('OK')
         const newNote = {
             title: this.state.title,
             text: this.state.text,
             status: status,
             start_date: moment(this.state.start_date).format('yyyy-MM-DD'),
-            stop_date: moment(this.state.stop_date).format('yyyy-MM-DD')
+            stop_date: moment(this.state.stop_date).format('yyyy-MM-DD'),
+            file: this.state.file,
+            files_list: this.state.files_list
         };
-        console.log(newNote);
         if (this.props.task){
             newNote.id=this.props.task.id
             this.props.task=null
@@ -77,10 +96,13 @@ class TaskEditor extends React.Component{
                 color: COLORS[0], 
                 button_name:"Add", 
                 start_date: new Date(),
-                stop_date: new Date()});
+                stop_date: new Date(),
+                files_list:[],
+                file: ''});
     };
 
     render(){
+        let listItems;
         if (this.props.task){
             this.state={
                 title:this.props.task.title,
@@ -88,9 +110,26 @@ class TaskEditor extends React.Component{
                 color: COLORS[this.props.task.status],
                 start_date: this.props.task.start_date,
                 stop_date: this.props.task.stop_date,
+                file: this.props.task.file,
+                files_list: this.props.task.files_list,
                 button_name: 'Update'
             }
-            console.log(this.props.task.status)
+            listItems = this.state.files_list.map((item,i)=> 
+            {
+                return (<div>
+                    <label className='Note__text'>{item}</label>
+                    <button onClick={this.props.onFileDownload.bind(null, item, this.props.task.id)} >Download</button>
+                </div>)  
+            });
+        }
+        else{
+            console.log(this.state.files_list)
+            listItems = this.state.files_list.map((item,i)=> 
+            {
+                return( <div>
+                    <label className='Note__text'>{item}</label>
+                    </div>)
+            });
         }
         
         return (
@@ -109,6 +148,11 @@ class TaskEditor extends React.Component{
                     value={this.state.text}
                     onChange={this.handleTextChange}
                 />
+                <FileUpload 
+                    onChange={this.handleFileChange}
+                />
+                <h4>Uploaded earlier: </h4>
+                {listItems}
                 <DatePicker
                     placeholderText="Beginning of Task"
                     selected={ moment(this.state.start_date).toDate()}

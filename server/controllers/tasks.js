@@ -7,13 +7,9 @@ const schema=Joi.object({
     start_date: Joi.date().default(Date.now),
     stop_date: Joi.date(),
     status: Joi.number().max(3).default(0),
-    files_list: Joi.array().items(Joi.string())
 });
 
 exports.add=async (data)=>{
-    const {error}=schema.validate(data);
-    if (error) return null;
-
     const task=new Task({
         title: data.title,
         text: data.text,
@@ -24,6 +20,7 @@ exports.add=async (data)=>{
     });
 
     try{
+        
         const savedTask=await task.save();
         return savedTask;
 
@@ -70,3 +67,4 @@ exports.delete=async(id)=>{
         return null;
     }
 }
+
