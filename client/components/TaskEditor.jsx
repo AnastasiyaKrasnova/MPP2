@@ -1,9 +1,9 @@
 import React from 'react';
 import DatePicker from 'react-datepicker'
-import "./react-datepicker.css"
+import "../styles/react-datepicker.css"
 import ColorPicker from './ColorPicker.jsx'
 import FileUpload from './FileUploader.jsx';
-import './TaskEditor.less'
+import '../styles/TaskEditor.less'
 import moment from 'moment'
 
 const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
@@ -71,7 +71,8 @@ class TaskEditor extends React.Component{
         const nf=this.state.file;
         nf.push(file);
         const f=this.state.files_list;
-        f.push(file.name);
+        if(f.indexOf(file.name)==-1)
+            f.push(file.name);
         this.setState({file:nf, files_list: f});
     };
 

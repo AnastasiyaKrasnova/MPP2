@@ -22,8 +22,13 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
 
 app.use(cors())
 app.use(express.json());
-app.use(express.static('public'));
+//app.use(express.static('public/build'));
 app.use(fileUpload());
+
+app.use("/static", express.static("public/build"));
+app.get('/',(req, res) => {
+    res.sendFile("index.html", {root: path.join(global.appRoot, "../public/build")});
+});
 
 app.use('/api',tasks);
 

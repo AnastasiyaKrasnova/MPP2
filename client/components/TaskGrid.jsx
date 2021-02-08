@@ -3,7 +3,7 @@ import Task from './Task.jsx';
 
 import Masonry from 'react-masonry-component';
 
-import './TaskGrid.less';
+import '../styles/TaskGrid.less';
 
 class TaskGrid extends React.Component{
     render() {

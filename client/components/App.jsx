@@ -7,7 +7,7 @@ import TasksStore from '../stores/TasksStore.js'
 import TaskActions from '../actions/TaskActions';
 
 
-import './App.less';
+import '../styles/App.less';
 
 function getStateFromFlux() {
     return {

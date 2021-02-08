@@ -1,7 +1,7 @@
 import React from 'react';
 import createReactClass from 'create-react-class'
 import cx from 'classnames';
-import './ColorPicker.less';
+import '../styles/ColorPicker.less';
 
 const COLORS = [ '#FF8A80','#FFD180','#FFFF8D', '#CCFF90']
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import ColorPicker from './ColorPicker.jsx'
-import './TaskEditor.less'
+import '../styles/TaskEditor.less'
 
 class TaskFilter extends React.Component{
     constructor (props){

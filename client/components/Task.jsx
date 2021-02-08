@@ -1,5 +1,5 @@
 import React from 'react';
-import './Task.less';
+import '../styles/Task.less';
 import moment from 'moment'
 
 class Task extends React.Component{
