@@ -49,7 +49,7 @@ class App extends React.Component{
     handleNoteDelete(task) {
         this.props.isEditing=false;
         TaskActions.deleteTask(task.id);
-        this.setState({editTask: task});
+        
     }
 
    handleNoteAdd(taskdata){
@@ -58,7 +58,6 @@ class App extends React.Component{
 
    handleNoteUpdate(taskdata){
        this.props.isEditing=false;
-       console.log(taskdata);
         TaskActions.updateTask(taskdata);
 
    }
@@ -72,6 +71,11 @@ class App extends React.Component{
         TaskActions.downloadFile(filename,id);
      }
 
+    handleFileDelete(filename,id){
+        console.log("Aaaaaaaaaaa")
+        TaskActions.deleteFile(filename,id);
+     }
+
    handleFiltering(status){
        TaskActions.filterTask(status);
    }
@@ -83,9 +87,9 @@ class App extends React.Component{
         console.log('render')
         let editor;
         if (!this.props.isEditing) {
-            editor= <TaskEditor onNoteAdd={this.handleNoteAdd} />;
+            editor= <TaskEditor renew={true} onNoteAdd={this.handleNoteAdd} />;
           } else {
-            editor =<TaskEditor task={this.state.editTask} onFileDownload={this.handleFileDownload} onNoteAdd={this.handleNoteUpdate} />;
+            editor =<TaskEditor renew={true} task={this.state.editTask} onFileDownload={this.handleFileDownload} onFileDelete={this.handleFileDelete}  onNoteAdd={this.handleNoteUpdate}/>;
           }
         return (
             <div className='App'>

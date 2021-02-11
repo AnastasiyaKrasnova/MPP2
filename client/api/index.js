@@ -30,6 +30,10 @@ export default {
 
     downloadFile(filename,id){
         return axios.post(`${apiPrefix}/tasks/download?filename=${filename}&id=${id}`);
-}
+    },
+
+    deleteFile(filename,id){
+        return axios.delete(`${apiPrefix}/tasks/files?filename=${filename}&id=${id}`);
+    }
 
 }

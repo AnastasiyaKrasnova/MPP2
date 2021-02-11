@@ -61,23 +61,14 @@ const TaskActions = {
             api.uploadFile(formData,note.id)
             .catch(err =>
                 console.error(err)
-        );
+            );
         })     
-        AppDispatcher.dispatch({
-            type: Constants.LOAD_TASKS_REQUEST
-        });
         api.updateTask(note)
-        .then(({ res }) =>{
-            AppDispatcher.dispatch({
-                type: Constants.LOAD_TASKS_SUCCESS,
-                tasks: res
-            });
-        })
+        .then(() =>
+            this.loadTasks()
+        )
         .catch(err =>
-            AppDispatcher.dispatch({
-                type: Constants.LOAD_TASKS_FAIL,
-                error: err
-            })
+            console.error(err)
         );
 
     },
@@ -108,6 +99,13 @@ const TaskActions = {
         .then(res => {
             download(res.data, filename);
         })
+        .catch(err => {
+           console.log(err);
+        });
+    },
+
+    deleteFile(filename,id){
+        api.deleteFile(filename,id)
         .catch(err => {
            console.log(err);
         });

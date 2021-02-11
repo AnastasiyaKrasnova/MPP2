@@ -31,9 +31,20 @@ router.post('/tasks/files', async (req,res)=>{
       });
 });
 
+router.delete('/tasks/files', async (req,res)=>{
+     const dir=`${global.appRoot}/public/${req.query.id}`
+     let filePath = path.resolve(`${dir}/${req.query.filename}`);
+     fs.unlinkSync(filePath, (err) => {
+          if (err){
+               console.log(err);
+               return res.status(500).send({ msg: "file is not found" })
+          }
+     });
+     res.status(200).send('deleted');
+});
+
 router.post('/tasks/download', async(req, res) => {
 
-     console.log(req.body)
      const dir=`${global.appRoot}/public/${req.query.id}`
      let filePath = path.resolve(`${dir}/${req.query.filename}`);
      res.download(filePath, (err) => {
